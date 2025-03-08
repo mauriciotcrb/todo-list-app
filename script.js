@@ -23,9 +23,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
       if (isCompleted) li.classList.add("completed");
 
+      // Create container for buttons
+      const taskActions = document.createElement("div");
+      taskActions.classList.add("task-actions");
+
       // Add complete button
       const completeBtn = document.createElement("button");
       completeBtn.textContent = "✔";
+      completeBtn.classList.add("complete-btn");
       completeBtn.addEventListener("click", function () {
           li.classList.toggle("completed");
           saveTasks();
@@ -34,13 +39,16 @@ document.addEventListener("DOMContentLoaded", function () {
       // Add delete button
       const deleteBtn = document.createElement("button");
       deleteBtn.textContent = "❌";
+      deleteBtn.classList.add("delete-btn");
       deleteBtn.addEventListener("click", function () {
           li.remove();
           saveTasks();
       });
 
-      li.appendChild(completeBtn);
-      li.appendChild(deleteBtn);
+      taskActions.appendChild(completeBtn);
+      taskActions.appendChild(deleteBtn);
+
+      li.appendChild(taskActions);
       taskList.appendChild(li);
   }
 
@@ -51,4 +59,22 @@ document.addEventListener("DOMContentLoaded", function () {
       });
       localStorage.setItem("tasks", JSON.stringify(tasks));
   }
+
+  // Add Task Filtering
+  document.getElementById("showAll").addEventListener("click", function () {
+    document.querySelectorAll("#taskList li").forEach(li => li.style.display = "flex");
+  });
+  
+  document.getElementById("showCompleted").addEventListener("click", function () {
+    document.querySelectorAll("#taskList li").forEach(li => {
+      li.style.display = li.classList.contains("completed") ? "flex" : "none";
+    });
+  });
+
+  document.getElementById("showPending").addEventListener("click", function () {
+    document.querySelectorAll("#taskList li").forEach(li => {
+      li.style.display = !li.classList.contains("completed") ? "flex" : "none";
+    });
+  });
 });
+
