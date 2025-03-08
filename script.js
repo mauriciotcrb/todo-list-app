@@ -61,19 +61,19 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   // Add Task Filtering
-  document.getElementById("showAll").addEventListener("click", function () {
-    document.querySelectorAll("#taskList li").forEach(li => li.style.display = "flex");
-  });
-  
-  document.getElementById("showCompleted").addEventListener("click", function () {
-    document.querySelectorAll("#taskList li").forEach(li => {
-      li.style.display = li.classList.contains("completed") ? "flex" : "none";
-    });
-  });
-
-  document.getElementById("showPending").addEventListener("click", function () {
-    document.querySelectorAll("#taskList li").forEach(li => {
-      li.style.display = !li.classList.contains("completed") ? "flex" : "none";
+  document.querySelectorAll('input[name="filter"]').forEach((radio) => {
+    radio.addEventListener("change", function () {
+        const filter = document.querySelector('input[name="filter"]:checked').id;
+        
+        document.querySelectorAll("#taskList li").forEach(li => {
+            if (filter === "showAll") {
+                li.style.display = "flex";
+            } else if (filter === "showCompleted") {
+                li.style.display = li.classList.contains("completed") ? "flex" : "none";
+            } else if (filter === "showPending") {
+                li.style.display = !li.classList.contains("completed") ? "flex" : "none";
+            }
+        });
     });
   });
 });
